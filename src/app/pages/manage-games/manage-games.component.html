@@ -1,0 +1,297 @@
+<div class="manage-games bg-slate-50 p-4 h-full">
+  <h1 class="text-2xl font-bold mb-4">Manage Games</h1>
+  <div class="flex flex-col flex-1 gap-y-4">
+    <!-- Add -->
+    <div class="add">
+      <button
+        (click)="openModalAdd()"
+        class="px-4 py-2 text-white font-semibold rounded flex ml-auto bg-indigo-500">
+        <span class="material-icons">add</span>
+        <span class="ml-2">Add Game</span>
+      </button>
+    </div>
+
+    <!-- Modal add -->
+    <div
+      ngClass="{{ displayModalAdd ? 'block' : 'hidden' }}"
+      class="modal-overlay absolute top-0 left-0 bottom-0 right-0 bg-black opacity-50 z-10"></div>
+    <div
+      class="modal-container bg-white p-4 rounded-lg shadow-lg fixed z-10 w-[600px] translate-x-1/2"
+      ngClass="{{ displayModalAdd ? 'block' : 'hidden' }}">
+      <div class="modal">
+        <div class="modal-header flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold">Add Game</h2>
+          <button
+            (click)="closeModalAdd()"
+            class="modal-close bg-gray-100 rounded-full border w-8 h-8 flex items-center justify-center">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            class="flex flex-col gap-y-4"
+            [formGroup]="addGameForm"
+            (ngSubmit)="addGame()">
+            <div class="flex flex-col gap-y-2">
+              <label for="name" class="text-sm font-semibold">Name</label>
+              <input
+                type="text"
+                id="name"
+                formControlName="name"
+                class="border rounded bg-gray-100 py-2 pl-4 w-full focus:outline-none focus:ring focus:ring-indigo-600/75" />
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <label for="description" class="text-sm font-semibold"
+                >Description</label
+              >
+              <textarea
+                id="description"
+                formControlName="description"
+                class="border rounded bg-gray-100 py-2 pl-4 w-full focus:outline-none focus:ring focus:ring-indigo-600/75"></textarea>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <label for="guide" class="text-sm font-semibold">Guide</label>
+              <textarea
+                id="guide"
+                formControlName="guide"
+                class="border rounded bg-gray-100 py-2 pl-4 w-full focus:outline-none focus:ring focus:ring-indigo-600/75"></textarea>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <label for="image" class="text-sm font-semibold">Image</label>
+              <input
+                type="file"
+                id="image"
+                formControlName="image"
+                (change)="onChangeImage($event)"
+                class="border rounded bg-gray-100 py-2 pl-4 w-full focus:outline-none focus:ring focus:ring-indigo-600/75" />
+            </div>
+            <div class="flex items-center justify-end">
+              <button
+                class="px-4 py-2 text-gray-500 font-semibold"
+                (click)="closeModalAdd()">
+                Cancel
+              </button>
+              <button
+                type="submit"
+                [disabled]="loading"
+                ngClass="{{
+                  loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                }}"
+                class="px-6 py-2 bg-indigo-600 rounded text-white font-semibold">
+                <span *ngIf="loading">Loading</span>
+                <span *ngIf="!loading">Add</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal update -->
+    <div
+      ngClass="{{ displayModalUpdate ? 'block' : 'hidden' }}"
+      class="modal-overlay absolute top-0 left-0 bottom-0 right-0 bg-black opacity-50 z-10"></div>
+    <div
+      class="modal-container bg-white p-4 rounded-lg shadow-lg fixed z-10 w-[600px] translate-x-1/2"
+      ngClass="{{ displayModalUpdate ? 'block' : 'hidden' }}">
+      <div class="modal">
+        <div class="modal-header flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold">Update Game</h2>
+          <button
+            (click)="closeModalUpdate()"
+            class="modal-close bg-gray-100 rounded-full border w-8 h-8 flex items-center justify-center">
+            <span class="material-icons">close</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form
+            class="flex flex-col gap-y-4"
+            [formGroup]="updateGameForm"
+            (ngSubmit)="updateGame()">
+            <div class="flex flex-col gap-y-2">
+              <label for="name" class="text-sm font-semibold">Name</label>
+              <input
+                value="{{ gameEdit.name }}"
+                type="text"
+                id="name"
+                formControlName="name"
+                class="border rounded bg-gray-100 py-2 pl-4 w-full focus:outline-none focus:ring focus:ring-indigo-600/75" />
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <label for="description" class="text-sm font-semibold"
+                >Description</label
+              >
+              <textarea
+                id="description"
+                value="{{ gameEdit.description }}"
+                formControlName="description"
+                class="border rounded bg-gray-100 py-2 pl-4 w-full focus:outline-none focus:ring focus:ring-indigo-600/75"></textarea>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <label for="guide" class="text-sm font-semibold">Guide</label>
+              <textarea
+                id="guide"
+                value="{{ gameEdit.guide }}"
+                formControlName="guide"
+                class="border rounded bg-gray-100 py-2 pl-4 w-full focus:outline-none focus:ring focus:ring-indigo-600/75"></textarea>
+            </div>
+            <div class="flex flex-col gap-y-2">
+              <label for="image" class="text-sm font-semibold">Image</label>
+              <input
+                type="file"
+                id="image"
+                formControlName="image"
+                (change)="onChangeImage($event)"
+                class="border rounded bg-gray-100 py-2 pl-4 w-full focus:outline-none focus:ring focus:ring-indigo-600/75" />
+              <!-- <ng-template [ngIf]="gameEdit.image">
+                  <img [src]="gameEdit.image" class="w-20 h-20 object-cover" />
+                </ng-template> -->
+            </div>
+            <div class="flex items-center justify-end">
+              <button
+                class="px-4 py-2 text-gray-500 font-semibold"
+                (click)="closeModalUpdate()">
+                Cancel
+              </button>
+              <button
+                type="submit"
+                [disabled]="loading"
+                ngClass="{{
+                  loading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
+                }}"
+                class="px-6 py-2 bg-indigo-600 rounded text-white font-semibold">
+                <span *ngIf="loading">Loading</span>
+                <span *ngIf="!loading">Update</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search relative w-full">
+      <input
+        type="text"
+        [(ngModel)]="search"
+        placeholder="Search game"
+        class="border rounded bg-gray-100 py-2 pl-4 pr-12 w-full focus:outline-none focus:ring focus:ring-indigo-600/75" />
+      <span
+        class="material-icons absolute top-1/2 -translate-y-1/2 right-4 border-l-2 pl-2"
+        >search</span
+      >
+    </div>
+
+    <!-- Shareable short link of  uploaded file -->
+    <div class="container text-center jumbotron" *ngIf="shortLink">
+      <h2>Visit Here</h2>
+      <a href="{{ shortLink }}">{{ shortLink }}</a>
+    </div>
+
+    <!-- Table -->
+    <div class="flex flex-col">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table class="min-w-full">
+              <thead class="bg-white border-b">
+                <tr>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    #
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Image
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Name
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Description
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Guide
+                  </th>
+                  <th
+                    scope="col"
+                    class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
+                    Settings
+                  </th>
+                </tr>
+              </thead>
+              <tbody *ngIf="games | filter: search as result">
+                <!-- <div *ngIf="games.length > 0 ? existGames : noGames"></div> -->
+                <ng-template [ngIf]="games.length > 0">
+                  <tr
+                    class="border-b"
+                    ngClass="{{ index % 2 == 0 ? 'bg-gray-50' : 'bg-white' }}"
+                    *ngFor="
+                      let game of games | filter: search;
+                      let index = index
+                    ">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                      {{ index + 1 }}
+                    </td>
+                    <td
+                      class="px-6 py-4 text-sm font-medium text-gray-900 w-32">
+                      <img
+                        class="w-full h-20 rounded object-cover"
+                        src="{{ game.image }}"
+                        alt="{{ game.name }}" />
+                    </td>
+                    <td
+                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      {{ game.name }}
+                    </td>
+                    <td
+                      class="text-sm text-gray-900 font-light px-6 py-4 break-words">
+                      {{ game.description }}
+                    </td>
+                    <td
+                      class="text-sm text-gray-900 font-light px-6 py-4 break-words">
+                      {{ game.guide }}
+                    </td>
+                    <td
+                      class="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
+                      <div class="flex items-center justify-start space-x-4">
+                        <button
+                          (click)="openModalUpdate(game)"
+                          class="px-4 py-2 text-white font-semibold rounded flex bg-green-500 transition-colors hover:bg-green-600">
+                          <span class="material-icons">edit</span>
+                        </button>
+                        <button
+                          (click)="deleteGame(game.id)"
+                          class="px-4 py-2 text-white font-semibold rounded flex bg-red-500 transition-colors hover:bg-red-600">
+                          <span class="material-icons">delete</span>
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template [ngIf]="result.length === 0">
+                  <tr class="border-b bg-white">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-gray-900/70 font-bold text-center text-xl"
+                      colspan="6">
+                      No data
+                    </td>
+                  </tr>
+                </ng-template>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

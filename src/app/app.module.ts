@@ -1,6 +1,7 @@
 // Modules
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -10,7 +11,10 @@ import { HeaderComponent } from './components/header/header.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
+import { ManageGamesComponent } from './pages/manage-games/manage-games.component';
 import { IsActivePipe } from './pipes/is-active.pipe';
+import { FilterPipe } from './pipes/filter.pipe';
+
 
 @NgModule({
   declarations: [
@@ -19,12 +23,16 @@ import { IsActivePipe } from './pipes/is-active.pipe';
     HomeComponent,
     HeaderComponent,
     SidebarComponent,
-    IsActivePipe
+    IsActivePipe,
+    ManageGamesComponent,
+    FilterPipe,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

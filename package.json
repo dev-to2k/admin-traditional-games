@@ -1,6 +1,7 @@
 {
   "name": "admin-traditional-games",
   "version": "0.0.0",
+  "proxy": "http://localhost:4200",
   "scripts": {
     "ng": "ng",
     "start": "ng serve --open",
@@ -18,6 +19,9 @@
     "@angular/platform-browser": "^14.2.0",
     "@angular/platform-browser-dynamic": "^14.2.0",
     "@angular/router": "^14.2.0",
+    "i": "^0.3.7",
+    "material-icons": "^1.13.1",
+    "npm": "^9.2.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

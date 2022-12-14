@@ -1,1 +1,14 @@
-<p>sidebar works!</p>
+<div class="sidebar">
+  <ul class="flex flex-col space-y-4 p-4">
+    <li
+      *ngFor="let menu of menuList"
+      class="text-black font-semibold transition-colors hover:text-indigo-600 cursor-pointer">
+      <a
+        routerLink="{{ menu.link }}"
+        routerLinkActive="active"
+        ariaCurrentWhenActive="page"
+        >{{ menu.title }}</a
+      >
+    </li>
+  </ul>
+</div>
