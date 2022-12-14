@@ -6,7 +6,9 @@ export interface User {
 }
 
 export interface Game {
-  name: string;
-  description: string;
-  guide: string;
+  id: string;
+  image: string;
+  name: string | null | undefined;
+  description: string | null | undefined;
+  guide: string | null | undefined;
 }

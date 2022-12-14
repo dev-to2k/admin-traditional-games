@@ -6,7 +6,10 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./sidebar.component.css']
 })
 export class SidebarComponent implements OnInit {
-
+  menuList = [
+    { title: 'Home', icon: 'home', link: '/' },
+    { title: 'Manage Games', icon: 'games', link: '/manage-games' },
+  ]
   constructor() { }
 
   ngOnInit(): void {
